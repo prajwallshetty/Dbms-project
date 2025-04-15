@@ -32,7 +32,7 @@
 
 ### 🔹 **Step 1: Clone the Repository**
 ```sh
-git clone https://github.com/prajwallshetty/car-ecom.git
+git clone https://github.com/prajwallshetty/Dbms-project.git
 cd Complete-Ecommerce-in-laravel-10
 ```
 
