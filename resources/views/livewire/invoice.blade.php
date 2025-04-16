@@ -11,7 +11,7 @@
                     <p class="text-md">Invoice #{{ $order->id }}</p>
                 </div>
                 <div>
-                    <p class="text-orange-600 font-semibold">SHOPI</p>
+                    <p class="text-orange-600 font-semibold">AJ CANTEEN</p>
                     <p>Tetouan Shore, ISMO</p>
                     <p>Tetouan</p>
                     <p>yusufisawi@gmail.com</p>
