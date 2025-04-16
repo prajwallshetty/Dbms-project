@@ -11,7 +11,7 @@
                     <form method="POST" action="{{ route('checkout.order') }}" id="checkoutForm">
                         @csrf
                         <div class="mb-4">
-                            <x-input-label for="country" :value="__('Country *')" />
+                            <x-input-label for="country" :value="__('Table Number *')" />
                             @include('livewire.countries-select')
                             <x-input-error class="mt-2" :messages="$errors->get('country')" />
                         </div>
