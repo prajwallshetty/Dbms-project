@@ -15,85 +15,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Checkout extends Component
 {
-
-    public function stripeCheckout()
-    {
-        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-        $lineItems = [];
-        foreach (Cart::content() as $item) {
-            $lineItems[] = [
-                'price_data' => [
-                    'currency' => 'usd',
-                    'product_data' => [
-                        'name' => $item->model->name,
-                    ],
-                    'unit_amount' => $item->model->price * 100,
-                ],
-                'quantity' => $item->qty,
-            ];
-        }
-
-        $checkout_session = \Stripe\Checkout\Session::create([
-            'line_items' => $lineItems,
-            'mode' => 'payment',
-            'success_url' => route('checkout.success')."?session_id={CHECKOUT_SESSION_ID}",
-            'cancel_url' => route('checkout.cancel'),
-        ]);
-
-        $total = str_replace(',', '', Cart::total());
-        $order = new Order([
-            'user_id' => Auth::user()->id,
-            'status' => 'pending',
-            'total' => $total,
-            'session_id' => $checkout_session->id,
-        ]);
-        $order->save();
-
-        foreach (Cart::content() as $item) {
-            $price = str_replace(',', '', $item->price);
-            $orderItem = new OrderItem([
-                'order_id' => $order->id,
-                'product_id' => $item->model->id,
-                'quantity' => $item->qty,
-                'price' => $price
-            ]);
-            $orderItem->save();
-        }
-
-        return $checkout_session->url;
-    }
-
-    public function success(Request $request, InvoiceService $invoiceService)
-    {
-        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-        $sessionId = $request->get('session_id');
-
-        try {
-            $session = \Stripe\Checkout\Session::retrieve($sessionId);
-            if (!$session) {
-                throw new NotFoundHttpException();
-            }
-            $order = Order::where('session_id', $session->id)->first();
-            $customer = \Stripe\Customer::retrieve($session->customer);
-            if ($order->status === 'pending') {
-                $order->status = 'processing';
-                $order->save();
-            }
-            Mail::to($order->user->email)->send(new OrderReceived($order, $invoiceService->createInvoice($order)));
-            Cart::destroy();
-            return view('livewire.success', compact('customer'));
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            throw new NotFoundHttpException();
-        }
-        return redirect()->route('home');
-    }
-
-    public function cancel()
-    {
-        return redirect()->route('home')->with('success', 'Your order has been canceled.');
-    }
-
     public function makeOrder(Request $request)
     {
         $validatedRequest = $request->validate([
@@ -107,16 +28,55 @@ class Checkout extends Component
         ]);
 
         $user = Auth::user();
+
+        // Save or update billing details
         if ($user->billingDetails === null) {
             $user->billingDetails()->create($validatedRequest);
         } else {
             $user->billingDetails()->update($validatedRequest);
         }
 
-        $sessionUrl = $this->stripeCheckout();
+        // Create the order
+        $total = str_replace(',', '', Cart::total());
+        $order = new Order([
+            'user_id' => $user->id,
+            'status' => 'processing',
+            'total' => $total,
+            'session_id' => null,
+        ]);
+        $order->save();
 
+        // Create order items
+        foreach (Cart::content() as $item) {
+            $price = str_replace(',', '', $item->price);
+            $orderItem = new OrderItem([
+                'order_id' => $order->id,
+                'product_id' => $item->model->id,
+                'quantity' => $item->qty,
+                'price' => $price
+            ]);
+            $orderItem->save();
+        }
 
-        return redirect($sessionUrl);
+        // Optional: send confirmation email with invoice
+        // Mail::to($order->user->email)->send(new OrderReceived($order, (new InvoiceService)->createInvoice($order)));
+
+        // Clear the cart
+        Cart::destroy();
+
+        // Redirect to success page
+        return redirect()->route('checkout.success')->with('success', 'Your order has been placed successfully.');
+    }
+
+    public function success(Request $request, InvoiceService $invoiceService)
+    {
+        // If using Stripe later, you can leave this as is or simplify
+        return view('livewire.success');
+    }
+
+    public function cancel()
+    {
+        return redirect()->route('home')->with('success', 'Your order has been canceled.');
     }
 
     public function render()
@@ -125,8 +85,10 @@ class Checkout extends Component
             session()->flash('error', 'Your cart is empty.');
             return redirect()->route('home');
         }
+
         $user = Auth::user();
         $billingDetails = $user->billingDetails;
+
         return view('livewire.checkout', compact('billingDetails'));
     }
 }
