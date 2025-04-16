@@ -41,19 +41,21 @@
     }
 
     // Slider Range JS
-    if ( $("#slider-range").length ) {
+    if ($("#slider-range").length) {
         $("#slider-range").slider({
             range: true,
             min: 0,
             max: 5000,
             values: [0, 5000],
             slide: function (event, ui) {
-                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                $("#amount").val("₹" + ui.values[0] + " - ₹" + ui.values[1]);
             }
         });
-        $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-            " - $" + $("#slider-range").slider("values", 1));
+    
+        $("#amount").val("₹" + $("#slider-range").slider("values", 0) +
+            " - ₹" + $("#slider-range").slider("values", 1));
     }
+    
 
     /*------ Hero slider 1 ----*/
     $('.hero-slider-1').slick({
