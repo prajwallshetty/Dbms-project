@@ -12,9 +12,9 @@
                 </div>
                 <div>
                     <p class="text-orange-600 font-semibold">AJ CANTEEN</p>
-                    <p>Tetouan Shore, ISMO</p>
-                    <p>Tetouan</p>
-                    <p>yusufisawi@gmail.com</p>
+                    <p>kottara chowki</p>
+                    <p>designed and developed by</p>
+                    <p>prajwal shetty</p>
                 </div>
             </header>
             <div class="mb-8 text-lg">
@@ -57,11 +57,11 @@
                 <tfoot class="text-lg">
                     <tr class="font-semibold">
                         <td colspan="4" class="px-4 py-2 text-right">Subtotal:</td>
-                        <td class="px-4 py-2">${{ $order->total }}</td>
+                        <td class="px-4 py-2">₹{{ $order->total }}</td>
                     </tr>
                     <tr class="font-semibold text-orange-600">
                         <td colspan="4" class="px-4 py-2 text-right">Total:</td>
-                        <td class="px-4 py-2">${{ $order->total }}</td>
+                        <td class="px-4 py-2">₹{{ $order->total }}</td>
                     </tr>
                 </tfoot>
             </table>
