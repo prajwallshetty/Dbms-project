@@ -74,7 +74,7 @@ class OrderItemResource extends Resource
                         'success' => 'completed',
                         'danger' => 'canceled',
                     ])->sortable(),
-                Tables\Columns\TextColumn::make('price')->prefix('$')->sortable(),
+                Tables\Columns\TextColumn::make('price')->prefix('₹')->sortable(),
             ])
             ->filters([
                 //

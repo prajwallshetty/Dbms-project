@@ -50,12 +50,12 @@ class ProductResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('price')
                     ->numeric()
-                    ->prefix('$')
+                    ->prefix('₹')
                     ->rules(['min:0'])
                     ->required(),
                 Forms\Components\TextInput::make('old_price')
                     ->numeric()
-                    ->prefix('$')
+                    ->prefix('₹')
                     ->rules(['min:0'])
                     ->required(),
                 Forms\Components\TextInput::make('quantity')->numeric(),
