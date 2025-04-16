@@ -91,16 +91,16 @@
                                                     </h5>
                                                     <span class="product-qty">x {{ $i->qty }}</span>
                                                 </td>
-                                                <td>${{ $i->subtotal }}</td>
+                                                <td>₹{{ $i->subtotal }}</td>
                                             </tr>
                                         @endforeach
                                         <tr>
                                             <th>SubTotal</th>
-                                            <td colspan="2">${{ Cart::subtotal() }}</td>
+                                            <td colspan="2">₹{{ Cart::subtotal() }}</td>
                                         </tr>
                                         <tr>
                                             <th>Tax</th>
-                                            <td colspan="2">${{ Cart::tax() }}</td>
+                                            <td colspan="2">₹{{ Cart::tax() }}</td>
                                         </tr>
                                         <tr>
                                             <th>Shipping</th>
@@ -109,7 +109,7 @@
                                         <tr>
                                             <th>Total</th>
                                             <td colspan="2">
-                                                <span class="font-xl text-brand fw-900">${{ Cart::total() }}</span>
+                                                <span class="font-xl text-brand fw-900">₹{{ Cart::total() }}</span>
                                             </td>
                                         </tr>
                                     </tbody>

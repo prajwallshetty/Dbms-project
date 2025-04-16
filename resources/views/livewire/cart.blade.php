@@ -116,7 +116,7 @@
                                                 <tr>
                                                     <td class="cart_total_label">Cart Subtotal</td>
                                                     <td class="cart_total_amount"><span
-                                                            class="font-lg fw-900 text-brand">${{ Cart::subtotal() }}</span>
+                                                            class="font-lg fw-900 text-brand">₹{{ Cart::subtotal() }}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -129,7 +129,7 @@
                                                     <td class="cart_total_amount">
                                                         <i class="ti-gift mr-5"></i>
                                                         <strong class="font-xl text-red-500">
-                                                            ${{ Cart::tax() }}
+                                                            ₹{{ Cart::tax() }}
                                                         </strong>
                                                     </td>
                                                 </tr>
@@ -137,7 +137,7 @@
                                                     <td class="cart_total_label">Total</td>
                                                     <td class="cart_total_amount">
                                                         <strong><span class="font-xl fw-900 text-brand">
-                                                                ${{ Cart::total() }}
+                                                            ₹{{ Cart::total() }}
                                                             </span></strong>
                                                     </td>
 
