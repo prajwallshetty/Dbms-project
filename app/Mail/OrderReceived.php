@@ -42,7 +42,7 @@ class OrderReceived extends Mailable
 
     public function attachments(): array
     {
-        $filename = 'Shopi-'.$this->order->user->name ;
+        $filename = 'Aj canteen-'.$this->order->user->name ;
         $localPath = storage_path('app/public/' . $filename . '.pdf');
         return [
             Attachment::fromPath($localPath, 'Invoice-'.$filename.'#'.$this->order->id.'.pdf')

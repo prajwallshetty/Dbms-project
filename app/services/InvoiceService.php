@@ -9,11 +9,11 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
 class InvoiceService {
     public function createInvoice($order) {
         $client = new Party([
-            'name'          => 'Shopi',
+            'name'          => 'Aj Canteen',
             'custom_fields' => [
-                'seller'        => 'Youssef El Aissaoui',
-                'phone'         => '+(212) 682860421',
-                'email'         => 'yusufisawi@gmail.com',
+                'seller'        => 'moonapa',
+                'phone'         => '6282759863',
+                'email'         => 'prajalshetty11@gmail.com',
             ],
         ]);
 
