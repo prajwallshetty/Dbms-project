@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder
             );
         });
         User::factory()->create([
-            'name' => 'yusuf',
-            'email' => 'yusuf@isawi.com',
+            'name' => 'prajwal shetty',
+            'email' => 'prajwalshetty@gmail.com',
             'password' => 'password',
             'is_admin' => true
         ]);
